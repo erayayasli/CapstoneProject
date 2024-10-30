@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CapstoneProjectGameMode.h"
-#include "CapstoneProjectCharacter.h"
+#include "Characters/CapstoneProjectCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ACapstoneProjectGameMode::ACapstoneProjectGameMode()
