@@ -15,6 +15,9 @@ class CAPSTONEPROJECT_API AConsumableItem : public ABaseItem
 {
 	GENERATED_BODY()
 public:
+	AConsumableItem();
+
+public:
 	virtual void Interact_Implementation(ACapstoneProjectCharacter* Character) override;
 
 };

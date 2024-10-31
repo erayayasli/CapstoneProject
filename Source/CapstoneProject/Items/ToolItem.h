@@ -15,5 +15,8 @@ class CAPSTONEPROJECT_API AToolItem : public ABaseItem
 {
 	GENERATED_BODY()
 public:
+	AToolItem();
+
+public:
 	virtual void Interact_Implementation(ACapstoneProjectCharacter* Character) override;
 };

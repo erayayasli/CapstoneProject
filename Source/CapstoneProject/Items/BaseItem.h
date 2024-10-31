@@ -9,6 +9,15 @@
 
 #include "BaseItem.generated.h"
 
+UENUM(BlueprintType)
+enum class EItemType : uint8
+{
+	BaseItem = 0,
+	ToolItem,
+	BuildingItem,
+	ConsumableItem
+};
+
 UCLASS()
 class CAPSTONEPROJECT_API ABaseItem : public AActor , public IInteractInterface
 {
@@ -32,4 +41,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY(VisibleAnywhere, Category = "Variables", meta = (AllowPrivateAccess = true))
+	EItemType ItemType;
+
+public:
+	FORCEINLINE EItemType GetItemType() { return ItemType; }
+	FORCEINLINE void SetItemType(EItemType Type) { ItemType = Type; }
 };

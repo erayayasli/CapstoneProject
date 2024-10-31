@@ -3,6 +3,11 @@
 
 #include "ConsumableItem.h"
 
+AConsumableItem::AConsumableItem()
+{
+    SetItemType(EItemType::ConsumableItem);
+}
+
 void AConsumableItem::Interact_Implementation(ACapstoneProjectCharacter* Character)
 {
     Super::Interact_Implementation(Character); // BaseItem class Interact Func

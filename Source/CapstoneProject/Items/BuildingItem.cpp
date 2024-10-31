@@ -3,6 +3,12 @@
 
 #include "BuildingItem.h"
 
+ABuildingItem::ABuildingItem()
+{
+    SetItemType(EItemType::BuildingItem);
+
+}
+
 void ABuildingItem::Interact_Implementation(ACapstoneProjectCharacter* Character)
 {
     Super::Interact_Implementation(Character); // BaseItem class Interact Func
