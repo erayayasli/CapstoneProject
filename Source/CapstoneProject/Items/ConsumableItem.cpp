@@ -5,11 +5,4 @@
 
 AConsumableItem::AConsumableItem()
 {
-    SetItemType(EItemType::ConsumableItem);
-}
-
-void AConsumableItem::Interact_Implementation(ACapstoneProjectCharacter* Character)
-{
-    Super::Interact_Implementation(Character); // BaseItem class Interact Func
-    UE_LOG(LogTemp, Warning, TEXT("Consumed item: %s"), *this->GetName());
 }

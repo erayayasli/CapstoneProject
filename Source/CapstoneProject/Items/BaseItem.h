@@ -6,28 +6,23 @@
 #include "GameFramework/Actor.h"
 #include "CapstoneProject/Interface/InteractInterface.h"
 #include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
+#include "DataStructs/ItemDataStructs.h"
 
 #include "BaseItem.generated.h"
 
-UENUM(BlueprintType)
-enum class EItemType : uint8
-{
-	BaseItem = 0,
-	ToolItem,
-	BuildingItem,
-	ConsumableItem
-};
-
 UCLASS()
-class CAPSTONEPROJECT_API ABaseItem : public AActor , public IInteractInterface
+class CAPSTONEPROJECT_API ABaseItem : public AActor, public IInteractInterface
 {
 	GENERATED_BODY()
 	
 public:
 	///////////////////////////////////////////////////////////////////////////////////////////
 	// Interface functions
-	virtual void Interact_Implementation(ACapstoneProjectCharacter* Character) override;
-
+	virtual void BeginFocus() override;
+	virtual void EndFocus() override;
+	virtual void BeginInteract() override;
+	virtual void EndInteract() override;
+	virtual void Interact(class ACapstoneProjectCharacter* PlayerCharacter) override;
 
 public:	
 	// Sets default values for this actor's properties
@@ -42,10 +37,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Variables", meta = (AllowPrivateAccess = true))
-	EItemType ItemType;
+	UPROPERTY(EditAnywhere, Category = "Test Actor")
+	TObjectPtr<UStaticMeshComponent> Mesh;
 
-public:
-	FORCEINLINE EItemType GetItemType() { return ItemType; }
-	FORCEINLINE void SetItemType(EItemType Type) { ItemType = Type; }
+	UPROPERTY(EditInstanceOnly, Category = "Test Actor")
+	FInteractableData InstanceInteractableData;
+
+
 };

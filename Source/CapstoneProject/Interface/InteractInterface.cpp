@@ -4,3 +4,23 @@
 #include "InteractInterface.h"
 
 // Add default functionality here for any IInteractInterface functions that are not pure virtual.
+
+void IInteractInterface::BeginFocus()
+{
+}
+
+void IInteractInterface::EndFocus()
+{
+}
+
+void IInteractInterface::BeginInteract()
+{
+}
+
+void IInteractInterface::EndInteract()
+{
+}
+
+void IInteractInterface::Interact(ACapstoneProjectCharacter* PlayerCharacter)
+{
+}

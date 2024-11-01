@@ -18,6 +18,6 @@ public:
 	ABuildingItem();
 
 public:
-	virtual void Interact_Implementation(ACapstoneProjectCharacter* Character) override;
+	//virtual void Interact_Implementation(ACapstoneProjectCharacter* Character) override;
 	
 };
