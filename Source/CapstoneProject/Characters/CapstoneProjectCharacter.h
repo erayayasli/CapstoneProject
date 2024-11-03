@@ -12,6 +12,7 @@ class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
+class ACharHUD;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -82,6 +83,9 @@ public:
 
 
 public:
+	UPROPERTY()
+	ACharHUD* HUD;
+
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
 	TScriptInterface<IInteractInterface> TargetInteractable;
 

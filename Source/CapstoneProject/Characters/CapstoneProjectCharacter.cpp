@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include "CapstoneProject/UserInterface/CharHUD.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -46,6 +47,9 @@ void ACapstoneProjectCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	HUD = Cast<ACharHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+
 }
 void ACapstoneProjectCharacter::Tick(float DeltaSeconds)
 {
@@ -182,7 +186,7 @@ void ACapstoneProjectCharacter::FoundInteractable(AActor* NewInteractable)
 	InteractionData.CurrentInteractable = NewInteractable;
 	TargetInteractable = NewInteractable;
 
-	//HUD->UpdateInteractionWidget(&TargetInteractable->InteractableData);
+	HUD->UpdateInteractionWidget(&TargetInteractable->InteractableData);
 
 	TargetInteractable->BeginFocus();
 }
@@ -202,7 +206,7 @@ void ACapstoneProjectCharacter::NoInteractableFound()
 			EndInteract();
 		}
 
-		//HUD->HideInteractionWidget();
+		HUD->HideInteractionWidget();
 
 		InteractionData.CurrentInteractable = nullptr;
 		TargetInteractable = nullptr;

@@ -85,6 +85,6 @@ void ACharHUD::UpdateInteractionWidget(const FInteractableData* InteractableData
 			InteractionWidget->SetVisibility(ESlateVisibility::Visible);
 		}
 
-		//InteractionWidget->UpdateWidget(InteractableData);
+		InteractionWidget->UpdateWidget(InteractableData);
 	}
 }

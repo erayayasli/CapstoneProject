@@ -28,7 +28,7 @@ public:
 
 	void ShowInteractionWidget() const;
 	void HideInteractionWidget() const;
-	void UpdateInteractionWidget(const class FInteractableData* InteractableData) const;
+	void UpdateInteractionWidget(const struct FInteractableData* InteractableData) const;
 public:
 	// VARIABLES
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
