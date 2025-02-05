@@ -81,7 +81,7 @@ public:
 	// when iinventory updated sends a signal for widget to update itself
 	FOnInventoryUpdated OnInventoryUpdated;
 
-	UInventoryComponent();
+	//UInventoryComponent();
 
 	UFUNCTION(Category = "Inventory")
 	FItemAddResult HandleAddItem(class UItemBase* InputItem);
@@ -135,7 +135,6 @@ private:
 
 
 protected:
-	virtual void BeginPlay() override;
 
 	FItemAddResult HandleNonStackableItems(UItemBase* ItemIn);
 	int32 HandleStackableItems(UItemBase* ItemIn, int32 RequestedAddAmount);

@@ -60,6 +60,9 @@ class ACapstoneProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ToggleMenuAction;
+
 public:
 	ACapstoneProjectCharacter();
 
@@ -80,7 +83,7 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-
+	
 
 public:
 	UPROPERTY()
@@ -89,8 +92,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
 	TScriptInterface<IInteractInterface> TargetInteractable;
 
-	//UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
-	//TObjectPtr<UInventoryComponent> PlayerInventory;
+	UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
+	TObjectPtr<class UInventoryComponent> PlayerInventory;
 
 	// interaction properties
 	float InteractionCheckFrequency;
@@ -100,6 +103,9 @@ public:
 
 
 	//FUNCTIONS
+
+	void ToggleMenu();
+
 	void PerformInteractionCheck();
 	void FoundInteractable(AActor* NewInteractable);
 	void NoInteractableFound();
@@ -112,5 +118,8 @@ public:
 public:
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
 
+	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
+
+	void UpdateInteractionWidget() const;
 };
 

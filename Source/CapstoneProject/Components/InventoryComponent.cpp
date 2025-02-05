@@ -289,7 +289,7 @@ void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 		NewItem = Item->CreateItemCopy();
 	}
 
-	NewItem->OwningInventory = this;
+	//NewItem->OwningInventory = this;
 	NewItem->SetQuantity(AmountToAdd);
 
 	InventoryContents.Add(NewItem);

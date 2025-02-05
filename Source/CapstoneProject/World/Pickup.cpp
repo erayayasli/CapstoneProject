@@ -1,6 +1,7 @@
 #include "Pickup.h"
 #include "CapstoneProject/Items/DataStructs/ItemDataStructs.h"
 #include "CapstoneProject/Items/ItemBase.h"
+#include "CapstoneProject/Components/InventoryComponent.h"
 
 // Sets default values
 APickup::APickup()
@@ -94,7 +95,7 @@ void APickup::TakePickup(const ACapstoneProjectCharacter* Taker)
 	if (!IsPendingKillPending())
 	{
 		if (ItemReference)
-		{/*
+		{
 			if (UInventoryComponent* PlayerInventory = Taker->GetInventory())
 			{
 				const FItemAddResult AddResult = PlayerInventory->HandleAddItem(ItemReference);
@@ -119,7 +120,7 @@ void APickup::TakePickup(const ACapstoneProjectCharacter* Taker)
 			else
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Player inventory component is null!"));
-			}*/
+			}
 		}
 		else
 		{

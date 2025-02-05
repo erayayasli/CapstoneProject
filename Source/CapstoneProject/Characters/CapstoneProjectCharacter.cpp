@@ -10,6 +10,7 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include "CapstoneProject/UserInterface/CharHUD.h"
+#include "CapstoneProject/Components/InventoryComponent.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -26,6 +27,10 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 		
+	PlayerInventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("PlayerInventory"));
+	PlayerInventory->SetSlotsCapacity(20);
+	PlayerInventory->SetWeightCapacity(50.0f);
+
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
@@ -71,9 +76,12 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
-		//
+		// Interaction
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::BeginInteract);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::EndInteract);
+
+		// Toggle menu
+		EnhancedInputComponent->BindAction(ToggleMenuAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::ToggleMenu);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACapstoneProjectCharacter::Move);
@@ -116,6 +124,11 @@ void ACapstoneProjectCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ACapstoneProjectCharacter::ToggleMenu()
+{
+	HUD->ToggleMenu();
 }
 
 void ACapstoneProjectCharacter::PerformInteractionCheck()
@@ -257,5 +270,12 @@ void ACapstoneProjectCharacter::Interact()
 	if (IsValid(TargetInteractable.GetObject()))
 	{
 		TargetInteractable->Interact(this);
+	}
+}
+void ACapstoneProjectCharacter::UpdateInteractionWidget() const
+{
+	if (IsValid(TargetInteractable.GetObject()))
+	{
+		HUD->UpdateInteractionWidget(&TargetInteractable->InteractableData);
 	}
 }
