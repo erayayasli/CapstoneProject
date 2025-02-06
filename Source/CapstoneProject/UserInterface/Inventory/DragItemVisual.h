@@ -14,4 +14,15 @@ class CAPSTONEPROJECT_API UDragItemVisual : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+public:
+
+	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta = (BindWidget))
+	TObjectPtr<class UBorder> ItemBorder;
+
+	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta = (BindWidget))
+	TObjectPtr<class UImage> ItemIcon;
+
+	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta = (BindWidget))
+	TObjectPtr<class UTextBlock> ItemQuantity;
 };

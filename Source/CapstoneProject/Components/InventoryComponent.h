@@ -103,13 +103,16 @@ public:
 
 	// getters
 	// ------------------------------
-	UFUNCTION(Category = "Inventory")
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	FORCEINLINE float GetInventoryTotalWeight() const { return InventoryTotalWeight; };
-	UFUNCTION(Category = "Inventory")
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	FORCEINLINE float GetWeightCapacity() const { return InventoryWeightCapacity; };
-	UFUNCTION(Category = "Inventory")
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	FORCEINLINE int32 GetSlotsCapacity() const { return InventorySlotsCapacity; };
-	UFUNCTION(Category = "Inventory")
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	FORCEINLINE TArray<UItemBase*> GetInventoryContents() const { return InventoryContents; };
 
 	// setters

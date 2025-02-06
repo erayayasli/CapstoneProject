@@ -13,5 +13,12 @@ UCLASS()
 class CAPSTONEPROJECT_API UItemDragDropOperation : public UDragDropOperation
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	TObjectPtr<class UItemBase> SourceItem;
+
+	UPROPERTY()
+	TObjectPtr<class UInventoryComponent> SourceInventory;
 	
 };
