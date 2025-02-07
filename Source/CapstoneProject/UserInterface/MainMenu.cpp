@@ -1,6 +1,9 @@
 
 #include "MainMenu.h"
 #include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
+#include "Inventory/ItemDragDropOperation.h"
+#include "CapstoneProject/Items/ItemBase.h"
+
 void UMainMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -10,7 +13,7 @@ void UMainMenu::NativeOnInitialized()
 void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
-
+	 
 	PlayerCharacter = Cast<ACapstoneProjectCharacter>(GetOwningPlayerPawn());
 }
 
@@ -18,12 +21,12 @@ bool UMainMenu::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& 
 {
 	//Cast operation to drag drop, ensure player is valid, call drop item on player
 
-	//const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
+	const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
 
-	//if (PlayerCharacter && ItemDragDrop->SourceItem)
-	//{
-	//	PlayerCharacter->DropItem(ItemDragDrop->SourceItem, ItemDragDrop->SourceItem->Quantity);
-	//	return true;
-	//}
+	if (PlayerCharacter && ItemDragDrop->SourceItem)
+	{
+		PlayerCharacter->DropItem(ItemDragDrop->SourceItem, ItemDragDrop->SourceItem->Quantity);
+		return true;
+	}
 	return false;
 }

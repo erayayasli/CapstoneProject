@@ -37,15 +37,19 @@ void UInventoryTooltip::NativeConstruct()
 		switch (ItemBeingHovered->ItemType)
 		{
 		case EItemType::Armor:
+			ItemType->SetText(FText::FromString("Armor"));
 			break;
 
 		case EItemType::Weapon:
+			ItemType->SetText(FText::FromString("Weapon"));
 			break;
 
 		case EItemType::Shield:
+			ItemType->SetText(FText::FromString("Shield"));
 			break;
 
 		case EItemType::Spell:
+			ItemType->SetText(FText::FromString("Spell"));
 			break;
 
 		case EItemType::Consumable:
@@ -55,6 +59,7 @@ void UInventoryTooltip::NativeConstruct()
 			break;
 
 		case EItemType::Quest:
+			ItemType->SetText(FText::FromString("Quest"));
 			break;
 
 		case EItemType::Mundane:

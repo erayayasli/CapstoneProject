@@ -75,7 +75,7 @@ FReply UInventoryItemSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, 
 		return Reply.Handled().DetectDrag(TakeWidget(), EKeys::LeftMouseButton);
 	}
 
-	// submenu on right click will happen here
+	// submenu on right click will happen here //TODO: SA? TIKLAYINCA HER E?YAYA GÖRE B?R MENÜ ÇIKACAK: KULLAN EL?NE AL CART CURT.
 
 	return Reply.Unhandled();
 }
