@@ -2,7 +2,7 @@
 
 
 #include "ItemBase.h"
-
+#include "CapstoneProject/Components/InventoryComponent.h"
 UItemBase::UItemBase() : bIsCopy(false), bIsPickup(false)
 {
 }
@@ -37,7 +37,7 @@ void UItemBase::SetQuantity(const int32 NewQuantity)
 	{
 		Quantity = FMath::Clamp(NewQuantity, 0, this->NumericData.bIsStackable ? this->NumericData.MaxStackSize : 1);
 
-		/*if (this->OwningInventory)
+		if (this->OwningInventory)
 		{
 			if (this->Quantity <= 0)
 			{
@@ -47,7 +47,7 @@ void UItemBase::SetQuantity(const int32 NewQuantity)
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("ItemBase OwningInventory was null (item may be a pickup)."));
-		}*/
+		}
 	}
 }
 

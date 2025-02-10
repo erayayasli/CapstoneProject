@@ -6,11 +6,11 @@
 UENUM(BlueprintType)
 enum class EItemQuality : uint8
 {
-	Shoddy UMETA(DisplayName = "Shoddy"),
 	Common UMETA(DisplayName = "Common"),
-	Quality UMETA(DisplayName = "Quality"),
-	Masterwork UMETA(DisplayName = "Masterwork"),
-	Grandmaster UMETA(DisplayName = "Grandmaster")
+	Uncommon UMETA(DisplayName = "Uncommon"),
+	Rare UMETA(DisplayName = "Rare"),
+	Epic UMETA(DisplayName = "Epic"),
+	Legendary UMETA(DisplayName = "Legendary")
 };
 
 UENUM(BlueprintType)

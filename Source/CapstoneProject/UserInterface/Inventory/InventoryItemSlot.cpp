@@ -35,20 +35,20 @@ void UInventoryItemSlot::NativeConstruct()
 	{
 		switch (ItemReference->ItemQuality)
 		{
-		case EItemQuality::Shoddy:
+		case EItemQuality::Uncommon:
 			ItemBorder->SetBrushColor(FLinearColor::Gray);
 			break;
 		case EItemQuality::Common:
-			ItemBorder->SetBrushColor(FLinearColor::White);
+			ItemBorder->SetBrushColor(FLinearColor(0.196f, 0.804f, 0.196f));
 			break;
-		case EItemQuality::Quality:
-			ItemBorder->SetBrushColor(FLinearColor(0.0f, 0.51f, 0.169f));
+		case EItemQuality::Rare:
+			ItemBorder->SetBrushColor(FLinearColor(0.0f, 1.0f, 1.0f));
 			break;
-		case EItemQuality::Masterwork:
-			ItemBorder->SetBrushColor(FLinearColor(0.0f, 0.4f, 0.75f));
+		case EItemQuality::Epic:
+			ItemBorder->SetBrushColor(FLinearColor(0.933f, 0.510f, 0.933f));
 			break;
-		case EItemQuality::Grandmaster:
-			ItemBorder->SetBrushColor(FLinearColor(1.0f, 0.45f, 0.0f));
+		case EItemQuality::Legendary:
+			ItemBorder->SetBrushColor(FLinearColor(1.0f, 0.843f, 0.0f));
 			break;
 		default:;
 		}

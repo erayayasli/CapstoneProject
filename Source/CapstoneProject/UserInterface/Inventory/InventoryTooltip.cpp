@@ -16,20 +16,20 @@ void UInventoryTooltip::NativeConstruct()
 	{
 		switch (ItemBeingHovered->ItemQuality)
 		{
-		case EItemQuality::Shoddy:
+			case EItemQuality::Uncommon:
 			ItemType->SetColorAndOpacity(FLinearColor::Gray);
 			break;
 		case EItemQuality::Common:
-			ItemType->SetColorAndOpacity(FLinearColor::White);
+			ItemType->SetColorAndOpacity(FLinearColor(0.196f, 0.804f, 0.196f));
 			break;
-		case EItemQuality::Quality:
-			ItemType->SetColorAndOpacity(FLinearColor(0.0f, 0.51f, 0.169f));
+		case EItemQuality::Rare:
+			ItemType->SetColorAndOpacity(FLinearColor(0.0f, 1.0f, 1.0f));
 			break;
-		case EItemQuality::Masterwork:
-			ItemType->SetColorAndOpacity(FLinearColor(0.0f, 0.4f, 0.75f));
+		case EItemQuality::Epic:
+			ItemType->SetColorAndOpacity(FLinearColor(0.933f, 0.510f, 0.933f));
 			break;
-		case EItemQuality::Grandmaster:
-			ItemType->SetColorAndOpacity(FLinearColor(1.0f, 0.45f, 0.0f));
+		case EItemQuality::Legendary:
+			ItemType->SetColorAndOpacity(FLinearColor(1.0f, 0.843f, 0.0f));
 			break;
 		default:;
 		}
@@ -42,6 +42,7 @@ void UInventoryTooltip::NativeConstruct()
 
 		case EItemType::Weapon:
 			ItemType->SetText(FText::FromString("Weapon"));
+			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 
 		case EItemType::Shield:
@@ -50,6 +51,7 @@ void UInventoryTooltip::NativeConstruct()
 
 		case EItemType::Spell:
 			ItemType->SetText(FText::FromString("Spell"));
+			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 
 		case EItemType::Consumable:
@@ -60,6 +62,7 @@ void UInventoryTooltip::NativeConstruct()
 
 		case EItemType::Quest:
 			ItemType->SetText(FText::FromString("Quest"));
+			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 
 		case EItemType::Mundane:
