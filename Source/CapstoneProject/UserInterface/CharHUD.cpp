@@ -28,6 +28,14 @@ void ACharHUD::BeginPlay()
 		CrosshairWidget->AddToViewport();
 		CrosshairWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+
+	if (StatsWidgetClass)
+	{
+		StatsWidget = CreateWidget<UUserWidget>(GetWorld(), StatsWidgetClass);
+		StatsWidget->AddToViewport(1);
+		StatsWidget->SetVisibility(ESlateVisibility::Visible);	
+	}
+	
 }
 
 void ACharHUD::DisplayMenu()

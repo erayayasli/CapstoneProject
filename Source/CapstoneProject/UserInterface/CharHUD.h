@@ -46,8 +46,12 @@ public:
 	UPROPERTY()
 	TObjectPtr<UUserWidget> CrosshairWidget;
 
-
 	bool bIsMenuVisible;
 
 
+	//Stats: Health, stamina, hunger, thirst
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> StatsWidgetClass;
+	UPROPERTY()
+	TObjectPtr<UUserWidget> StatsWidget;
 };
