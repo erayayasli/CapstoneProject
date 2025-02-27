@@ -64,14 +64,33 @@ class ACapstoneProjectCharacter : public ACharacter
 	UInputAction* InteractAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ToggleMenuAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
 	/**Input Actions - END*/
 
 public:
 	ACapstoneProjectCharacter();
 
 protected:
-	virtual void BeginPlay();
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	bool CanJump() const;
+	void HasJumped();
+	bool CanSprint() const;
+	void SetSprinting(const bool& IsSprinting);
+	void SetSneaking(const bool& IsSneaking);
 
+
+	//
+	void PlayerJump();
+	void SprintOn();
+	void SprintOff();
+	void SneakOn();
+	void SneakOff();
+
+
+	// Helper Function
+	bool BlockCharacterInput() const;
 protected:
 	void Move(const FInputActionValue& Value);
 
@@ -104,9 +123,7 @@ public:
 	FTimerHandle TimerHandle_Interaction;
 	FInteractionData InteractionData;
 
-
 	//FUNCTIONS
-
 	void ToggleMenu();
 
 	void PerformInteractionCheck();
@@ -120,11 +137,8 @@ public:
 
 public:
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
-
 	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
-
 	void UpdateInteractionWidget() const;
-
 	void DropItem(class UItemBase* ItemToDrop, const int32 QuantityToDrop);
 
 };

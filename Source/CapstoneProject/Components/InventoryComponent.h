@@ -76,6 +76,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+
 public:
 
 	// when iinventory updated sends a signal for widget to update itself
@@ -118,9 +119,9 @@ public:
 	// setters
 	// ------------------------------
 	UFUNCTION(Category = "Inventory")
-	FORCEINLINE void SetSlotsCapacity(const int32 NewSlotsCapacity) { InventorySlotsCapacity = NewSlotsCapacity; };
+	FORCEINLINE void SetSlotsCapacity(const int32 NewSlotsCapacity) { InventorySlotsCapacity = NewSlotsCapacity; }
 	UFUNCTION(Category = "Inventory")
-	FORCEINLINE void SetWeightCapacity(const float NewWeightCapacity) { InventoryWeightCapacity = NewWeightCapacity; };
+	FORCEINLINE void SetWeightCapacity(const float NewWeightCapacity) { InventoryWeightCapacity = NewWeightCapacity; }
 
 private:
 
@@ -131,6 +132,8 @@ private:
 	UPROPERTY(EditInstanceOnly, Category = "Inventory", meta = (AllowPrivateAccess = true))
 	float InventoryWeightCapacity;
 
+	UPROPERTY(EditInstanceOnly, Category = "Inventory", meta = (AllowPrivateAccess = true))
+	bool bInventoryIsOpen = false;
 
 	//Every staff will stack in here
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
@@ -145,4 +148,6 @@ protected:
 	int32 CalculateNumberForFullStack(const UItemBase* StackableItem, int32 InitialRequestedAddAmount) const;
 
 	void AddNewItem(UItemBase* Item, const int32 AmountToAdd);
+
+
 };

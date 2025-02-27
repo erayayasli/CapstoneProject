@@ -14,6 +14,7 @@
 #include "CapstoneProject/Items/ItemBase.h"
 #include "CapstoneProject/World/Pickup.h"
 #include "CapstoneProject/Components/StatlineComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -49,9 +50,10 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
-
 	StatlineComponent = CreateDefaultSubobject<UStatlineComponent>(TEXT("StatlineComponent"));
+	StatlineComponent->SetMovementCompReference(GetCharacterMovement());
 
+	GetCharacterMovement()->MaxWalkSpeed = StatlineComponent->WalkSpeed;
 }
 
 void ACapstoneProjectCharacter::BeginPlay()
@@ -61,6 +63,73 @@ void ACapstoneProjectCharacter::BeginPlay()
 
 	HUD = Cast<ACharHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
+}
+bool ACapstoneProjectCharacter::CanJump() const
+{
+	return StatlineComponent->CanJump();
+}
+void ACapstoneProjectCharacter::HasJumped()
+{
+	if (StatlineComponent)
+	{
+		StatlineComponent->HasJumped();
+		ACharacter::Jump();
+	}
+}
+bool ACapstoneProjectCharacter::CanSprint() const
+{
+	return StatlineComponent->CanSprint();
+}
+void ACapstoneProjectCharacter::SetSprinting(const bool& IsSprinting)
+{
+	StatlineComponent->SetSprinting(IsSprinting);
+}
+void ACapstoneProjectCharacter::SetSneaking(const bool& IsSneaking)
+{
+	//StatlineComponent->SetSneaking(IsSneaking);
+}
+void ACapstoneProjectCharacter::PlayerJump()
+{
+	if (BlockCharacterInput())
+	{
+		return;
+	}
+	if (CanJump() && !GetMovementComponent()->IsFalling())
+	{
+		HasJumped();
+	}
+}
+void ACapstoneProjectCharacter::SprintOn()
+{
+	if (BlockCharacterInput())
+	{
+		return;
+	}
+	SetSprinting(true);
+}
+void ACapstoneProjectCharacter::SprintOff()
+{
+	if (BlockCharacterInput())
+	{
+		return;
+	}
+	SetSprinting(false);
+}
+void ACapstoneProjectCharacter::SneakOn()
+{
+	if (BlockCharacterInput())
+	{
+		return;
+	}
+	SetSneaking(true);
+}
+void ACapstoneProjectCharacter::SneakOff()
+{
+	if (BlockCharacterInput())
+	{
+		return;
+	}
+	SetSneaking(false);
 }
 void ACapstoneProjectCharacter::Tick(float DeltaSeconds)
 {
@@ -79,7 +148,7 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::PlayerJump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Interaction
@@ -95,6 +164,9 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACapstoneProjectCharacter::Look);
 
+		//Sprinting
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::SprintOn);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::SprintOff);
 
 	}
 	else
@@ -103,8 +175,10 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	}
 }
 
-
-
+bool ACapstoneProjectCharacter::BlockCharacterInput() const
+{
+	return HUD->bIsMenuVisible;
+}
 
 void ACapstoneProjectCharacter::Move(const FInputActionValue& Value)
 {
