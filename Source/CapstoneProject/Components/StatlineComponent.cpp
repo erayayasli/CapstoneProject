@@ -6,10 +6,14 @@
 
 void UStatlineComponent::TickStats(const float& DeltaTime)
 {
-	Health.TickStat(DeltaTime);
 	TickStamina(DeltaTime);
-	Hunger.TickStat(DeltaTime);
-	Thirst.TickStat(DeltaTime);
+	TickHunger(DeltaTime);
+	TickThirst(DeltaTime);
+	if (Thirst.GetCurrent() <= 0.0 || Hunger.GetCurrent() <= 0.0)
+	{
+		return;
+	}
+	Health.TickStat(DeltaTime);
 }
 
 void UStatlineComponent::TickStamina(const float& DeltaTime)
@@ -39,10 +43,24 @@ void UStatlineComponent::TickStamina(const float& DeltaTime)
 
 void UStatlineComponent::TickHunger(const float& DeltaTime)
 {
+	if (Hunger.GetCurrent() <= 0.0)
+	{
+		Health.Adjust(0 - abs(StarvingHealthDamagePerSecond * DeltaTime));
+		return;
+	}
+
+	Hunger.TickStat(DeltaTime);
 }
 
 void UStatlineComponent::TickThirst(const float& DeltaTime)
 {
+	if (Thirst.GetCurrent() <= 0.0)
+	{
+		Health.Adjust(0 - abs(DehydrationHealthDamagePerSecond * DeltaTime));
+		return;
+	}
+
+	Thirst.TickStat(DeltaTime);
 }
 
 bool UStatlineComponent::IsValidSpriting()
@@ -119,6 +137,17 @@ void UStatlineComponent::SetSprinting(const bool& IsSprinting)
 	}
 	bIsSneaking = false;
 	OwningCharacterMovementComp->MaxWalkSpeed = bIsSprinting ? SprintSpeed : WalkSpeed;
+}
+
+void UStatlineComponent::SetSneaking(const bool& IsSneaking)
+{
+	bIsSneaking = IsSneaking;
+	if (bIsSprinting && !bIsSneaking)
+	{
+		return;
+	}
+	bIsSprinting = false;
+	OwningCharacterMovementComp->MaxWalkSpeed = bIsSneaking ? SneakSpeed : WalkSpeed;
 }
 
 bool UStatlineComponent::CanJump()

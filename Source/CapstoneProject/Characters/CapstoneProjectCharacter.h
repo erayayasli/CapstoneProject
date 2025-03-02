@@ -66,6 +66,8 @@ class ACapstoneProjectCharacter : public ACharacter
 	UInputAction* ToggleMenuAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SprintAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SneakAction;
 	/**Input Actions - END*/
 
 public:

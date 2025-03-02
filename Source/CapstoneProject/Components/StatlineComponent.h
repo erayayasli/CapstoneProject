@@ -32,9 +32,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Stamina;							 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
-	FCoreStat Hunger = FCoreStat(100, 100, -0.125);	
+	FCoreStat Hunger = FCoreStat(100, 100, -0.35);	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
-	FCoreStat Thirst = FCoreStat(100, 100, -0.25);
+	FCoreStat Thirst = FCoreStat(100, 100, -0.55);
 	
 	void TickStats(const float& DeltaTime);
 	void TickStamina(const float& DeltaTime);
@@ -53,13 +53,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
 	float JumpCost = 10;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
-	float WalkSpeed = 275;
+	float WalkSpeed = 300;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
 	float SprintSpeed = 550;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
-	float SneakSpeed = 80;
+	float SneakSpeed = 150;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
-	float SecondsForStaminaExhaustion = 2;
+	float SecondsForStaminaExhaustion = 5;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
 	float CurrentStaminaExhaustion = 0;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
@@ -93,10 +93,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetSprinting(const bool& IsSprinting);
 	UFUNCTION(BlueprintCallable)
+	void SetSneaking(const bool& IsSneaking);
+	UFUNCTION(BlueprintCallable)
 	bool CanJump();
 	UFUNCTION(BlueprintCallable)
 	void HasJumped();
-	//UFUNCTION(BlueprintCallable)
-	//void SetSneaking(const bool& IsSneaking);
+
 
 };

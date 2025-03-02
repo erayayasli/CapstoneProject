@@ -86,7 +86,7 @@ void ACapstoneProjectCharacter::SetSprinting(const bool& IsSprinting)
 }
 void ACapstoneProjectCharacter::SetSneaking(const bool& IsSneaking)
 {
-	//StatlineComponent->SetSneaking(IsSneaking);
+	StatlineComponent->SetSneaking(IsSneaking);
 }
 void ACapstoneProjectCharacter::PlayerJump()
 {
@@ -168,6 +168,9 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::SprintOn);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::SprintOff);
 
+		//Sneaking
+		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::SneakOn);
+		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::SneakOff);
 	}
 	else
 	{
