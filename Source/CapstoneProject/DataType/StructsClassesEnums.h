@@ -63,4 +63,8 @@ public:
 	{
 		PerSecondTick = NewTick;
 	}
+	float GetCurrent() const
+	{
+		return Current;
+	}
 };
