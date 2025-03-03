@@ -13,7 +13,6 @@ UCLASS()
 class CAPSTONEPROJECT_API UInventoryItemSlot : public UUserWidget
 {
 	GENERATED_BODY()
-	
 public:
 	FORCEINLINE void SetItemReference(class UItemBase* ItemIn) { ItemReference = ItemIn; };
 	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }
@@ -21,6 +20,9 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<class UDragItemVisual> DragItemVisualClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
+	TSubclassOf<class UInventorySlotContextMenu> InventorySlotContextMenuClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<class UInventoryTooltip> ToolTipClass;
@@ -43,4 +45,8 @@ protected:
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
+	// InventorySlotContextMenu functions
+	void CreateContextMenu(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
+	void RemoveExistingContextMenu();
 };

@@ -3,3 +3,7 @@
 
 #include "CPGameInstance.h"
 
+void UCPGameInstance::LoadLevel_Implementation(const FName& LevelToLoad)
+{
+	LoadLevel(LevelToLoad);
+}

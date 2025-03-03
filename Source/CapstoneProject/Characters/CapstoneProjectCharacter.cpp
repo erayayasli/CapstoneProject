@@ -15,6 +15,9 @@
 #include "CapstoneProject/World/Pickup.h"
 #include "CapstoneProject/Components/StatlineComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -131,6 +134,14 @@ void ACapstoneProjectCharacter::SneakOff()
 	}
 	SetSneaking(false);
 }
+void ACapstoneProjectCharacter::OnClickedLeftClick()
+{
+	//TODO: 
+	//Sol týk logic implement et
+	// Check if we have an active context menu
+	IfSlotsContextMenuOpenClose();
+
+}
 void ACapstoneProjectCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -171,6 +182,11 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		//Sneaking
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::SneakOn);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::SneakOff);
+
+		//LeftClickAction
+		EnhancedInputComponent->BindAction(LeftClickAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::OnClickedLeftClick);
+
+
 	}
 	else
 	{
@@ -181,6 +197,28 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 bool ACapstoneProjectCharacter::BlockCharacterInput() const
 {
 	return HUD->bIsMenuVisible;
+}
+
+void ACapstoneProjectCharacter::IfSlotsContextMenuOpenClose() const
+{
+	if (UInventorySlotContextMenu::ActiveContextMenu)
+	{
+		float MouseX, MouseY;
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetMousePosition(MouseX, MouseY);
+		FVector2D MousePos(MouseX, MouseY);
+
+		// Get menu bounds
+		FGeometry MenuGeometry = UInventorySlotContextMenu::ActiveContextMenu->GetCachedGeometry();
+		FVector2D MenuPosition = MenuGeometry.GetAbsolutePosition();
+		FVector2D MenuSize = MenuGeometry.GetAbsoluteSize();
+
+		// Check if click is outside menu bounds
+		if (MousePos.X < MenuPosition.X || MousePos.X > MenuPosition.X + MenuSize.X ||
+			MousePos.Y < MenuPosition.Y || MousePos.Y > MenuPosition.Y + MenuSize.Y)
+		{
+			UInventorySlotContextMenu::ActiveContextMenu->RemoveMenu();
+		}
+	}
 }
 
 void ACapstoneProjectCharacter::Move(const FInputActionValue& Value)
@@ -211,6 +249,7 @@ void ACapstoneProjectCharacter::Look(const FInputActionValue& Value)
 
 void ACapstoneProjectCharacter::ToggleMenu()
 {
+	IfSlotsContextMenuOpenClose();
 	HUD->ToggleMenu();
 }
 

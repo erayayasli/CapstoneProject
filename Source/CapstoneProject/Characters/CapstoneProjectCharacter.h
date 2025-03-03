@@ -68,6 +68,8 @@ class ACapstoneProjectCharacter : public ACharacter
 	UInputAction* SprintAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SneakAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeftClickAction;
 	/**Input Actions - END*/
 
 public:
@@ -89,10 +91,12 @@ protected:
 	void SprintOff();
 	void SneakOn();
 	void SneakOff();
+	void OnClickedLeftClick();
 
 
 	// Helper Function
 	bool BlockCharacterInput() const;
+	void IfSlotsContextMenuOpenClose() const;
 protected:
 	void Move(const FInputActionValue& Value);
 
@@ -110,7 +114,7 @@ public:
 	
 
 public:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "HUD")
 	ACharHUD* HUD;
 
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")

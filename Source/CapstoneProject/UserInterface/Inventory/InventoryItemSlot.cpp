@@ -7,14 +7,21 @@
 #include "ItemDragDropOperation.h"
 #include "InventoryTooltip.h"
 #include "DragItemVisual.h"
+#include "InventorySlotContextMenu.h"
+
 #include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
 #include "CapstoneProject/Components/InventoryComponent.h"
 #include "CapstoneProject/Items/ItemBase.h"
 
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 
 #include "Components/Border.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+
+#include "Kismet/GameplayStatics.h"
+
 
 void UInventoryItemSlot::NativeOnInitialized()
 {
@@ -74,9 +81,14 @@ FReply UInventoryItemSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, 
 	{
 		return Reply.Handled().DetectDrag(TakeWidget(), EKeys::LeftMouseButton);
 	}
-
 	// submenu on right click will happen here //TODO: SA? TIKLAYINCA HER E?YAYA GÖRE B?R MENÜ ÇIKACAK: KULLAN EL?NE AL CART CURT.
+	else if (InMouseEvent.GetEffectingButton() == EKeys::RightMouseButton)
+	{
+		// Right-click detected, show context menu
+		CreateContextMenu(InGeometry, InMouseEvent);
 
+		return Reply.Handled();
+	}
 	return Reply.Unhandled();
 }
 
@@ -115,4 +127,52 @@ bool UInventoryItemSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 	UDragDropOperation* InOperation)
 {
 	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+}
+
+void UInventoryItemSlot::CreateContextMenu(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	// First, remove any existing context menu
+	RemoveExistingContextMenu();
+
+	// Create context menu widget
+	UInventorySlotContextMenu* ContextMenu = CreateWidget<UInventorySlotContextMenu>(GetOwningPlayer(), InventorySlotContextMenuClass);
+	if (!ContextMenu)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to create context menu widget!"));
+		return;
+	}
+
+	// Set the associated item for the context menu
+	ContextMenu->SetItemData(ItemReference);
+	ContextMenu->SetParentSlot(this);
+
+	// Add to viewport to ensure it appears on top
+	if (APlayerController* PC = GetOwningPlayer())
+	{
+		// Mouse pozisyonunu al
+		FVector2D MousePosition;
+		if (UWidgetLayoutLibrary::GetMousePositionScaledByDPI(UGameplayStatics::GetPlayerController(PC->GetWorld(), 0), MousePosition.X, MousePosition.Y))
+		{
+			// Konumu ayarla
+			ContextMenu->SetRenderTranslation(MousePosition);
+			ContextMenu->AddToViewport(9999); // High Z-order to be on top
+			
+			ContextMenu->SetDesiredSizeInViewport(ContextMenu->SizeOfContextMenu);
+		}
+	}
+}
+void UInventoryItemSlot::RemoveExistingContextMenu()
+{
+	// Find and remove any existing context menus
+	TArray<UUserWidget*> AllWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), AllWidgets, UInventorySlotContextMenu::StaticClass(), false);
+
+	for (UUserWidget* Widget : AllWidgets)
+	{
+		UInventorySlotContextMenu* ContextMenu = Cast<UInventorySlotContextMenu>(Widget);
+		if (ContextMenu)
+		{
+			ContextMenu->RemoveFromParent();
+		}
+	}
 }

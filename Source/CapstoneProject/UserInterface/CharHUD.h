@@ -50,8 +50,8 @@ public:
 
 
 	//Stats: Health, stamina, hunger, thirst
-	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> StatsWidgetClass;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widgets")
 	TObjectPtr<UUserWidget> StatsWidget;
 };
