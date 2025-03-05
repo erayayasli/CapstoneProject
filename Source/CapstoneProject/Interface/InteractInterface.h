@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "CapstoneProject/Items/DataStructs/ItemDataStructs.h"
 #include "InteractInterface.generated.h"
 
 class ACapstoneProjectCharacter;
@@ -32,6 +33,9 @@ struct FInteractableData {
 
 	UPROPERTY(EditInstanceOnly)
 	EInteractableType InteractableType;
+
+	UPROPERTY(EditAnywhere, Category = "Item Data")
+	EItemType ItemType;
 
 	UPROPERTY(EditInstanceOnly)
 	FText Name;

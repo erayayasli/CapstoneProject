@@ -1,6 +1,7 @@
 #include "InventorySlotContextMenu.h"
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
+#include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
 
 UInventorySlotContextMenu* UInventorySlotContextMenu::ActiveContextMenu = nullptr;
 
@@ -61,9 +62,12 @@ void UInventorySlotContextMenu::OnDropButtonClicked()
     if (ItemReference)
     {
         // Call your item drop function
-        // ItemReference->Drop();
-
-        UE_LOG(LogTemp, Warning, TEXT("Esya: %d"), ItemReference->ItemType);
+        ACapstoneProjectCharacter* PlayerCharacter = Cast<ACapstoneProjectCharacter>(GetOwningPlayerPawn());
+        if (PlayerCharacter)
+        {
+            PlayerCharacter->DropItem(ItemReference, ItemReference->Quantity);
+            UE_LOG(LogTemp, Warning, TEXT("Esya atýldý: %d numara"), ItemReference->ItemType);
+        }
 
     }
 

@@ -141,6 +141,7 @@ void ACapstoneProjectCharacter::OnClickedLeftClick()
 	// Check if we have an active context menu
 	IfSlotsContextMenuOpenClose();
 
+
 }
 void ACapstoneProjectCharacter::Tick(float DeltaSeconds)
 {
@@ -415,7 +416,7 @@ void ACapstoneProjectCharacter::DropItem(UItemBase* ItemToDrop, const int32 Quan
 		const FTransform SpawnTransform(GetActorRotation(), SpawnLocation);
 
 		const int32 RemovedQuantity = PlayerInventory->RemoveAmountOfItem(ItemToDrop, QuantityToDrop);
-
+		//??????
 		APickup* Pickup = GetWorld()->SpawnActor<APickup>(APickup::StaticClass(), SpawnTransform, SpawnParams);
 
 		Pickup->InitializeDrop(ItemToDrop, RemovedQuantity);

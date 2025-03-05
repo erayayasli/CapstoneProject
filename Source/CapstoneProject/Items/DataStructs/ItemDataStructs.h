@@ -16,22 +16,16 @@ enum class EItemQuality : uint8
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
-	Armor UMETA(DisplayName = "Armor"),
 	Weapon UMETA(DisplayName = "Weapon"),
-	Shield UMETA(DisplayName = "Shield"),
-	Spell UMETA(DisplayName = "Spell"),
 	Consumable UMETA(DisplayName = "Consumable"),
-	Quest UMETA(DisplayName = "Quest"),
-	Mundane UMETA(DisplayName = "Mundane")
+	Resource UMETA(DisplayName = "Resource"),
+	Tool UMETA(DisplayName = "Tool")
 };
 
 USTRUCT(BlueprintType)
 struct FItemStatistics
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	float ArmorRating;
 
 	UPROPERTY(EditAnywhere)
 	float DamageValue;

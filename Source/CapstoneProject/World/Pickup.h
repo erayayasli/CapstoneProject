@@ -18,15 +18,17 @@ class CAPSTONEPROJECT_API APickup : public AActor, public IInteractInterface
 public:
 
 	APickup();
-
 	void InitializePickup(const int32 InQuantity);
 
+	UFUNCTION(BlueprintCallable)
 	void InitializeDrop(UItemBase* ItemToDrop, const int32 InQuantity);
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE UItemBase* GetItemData() const { return ItemReference; };
 
 	virtual void BeginFocus() override;
 	virtual void EndFocus() override;
+	virtual void Interact(ACapstoneProjectCharacter* PlayerCharacter) override;
 
 protected:
 
@@ -36,7 +38,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Pickup | Item Reference")
 	TObjectPtr<UItemBase> ItemReference;
 
-	UPROPERTY(VisibleInstanceOnly, Category = "Pickup | Interaction Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup | Interaction Data", meta = (AllowPrivateAccess = true))
 	FInteractableData InstanceInteractableData;
 
 	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Initialization")
@@ -48,7 +50,6 @@ protected:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void Interact(ACapstoneProjectCharacter* PlayerCharacter) override;
 	void UpdateInteractableData();
 
 	void TakePickup(const ACapstoneProjectCharacter* Taker);

@@ -75,6 +75,7 @@ public:
 	UFUNCTION(Category = "Item")
 	virtual void Use(ACapstoneProjectCharacter* PlayerCharacter);
 
+
 protected:
 	bool operator==(const FName& OtherID) const
 	{

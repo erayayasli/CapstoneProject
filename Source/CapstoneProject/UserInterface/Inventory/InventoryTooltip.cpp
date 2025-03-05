@@ -36,40 +36,21 @@ void UInventoryTooltip::NativeConstruct()
 
 		switch (ItemBeingHovered->ItemType)
 		{
-		case EItemType::Armor:
-			ItemType->SetText(FText::FromString("Armor"));
+		case EItemType::Tool:
+			ItemType->SetText(FText::FromString("Tool"));
 			break;
 
 		case EItemType::Weapon:
 			ItemType->SetText(FText::FromString("Weapon"));
-			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 
-		case EItemType::Shield:
-			ItemType->SetText(FText::FromString("Shield"));
-			break;
-
-		case EItemType::Spell:
-			ItemType->SetText(FText::FromString("Spell"));
-			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
+		case EItemType::Resource:
+			ItemType->SetText(FText::FromString("Resource"));
 			break;
 
 		case EItemType::Consumable:
 			ItemType->SetText(FText::FromString("Consumable"));
 			DamageValue->SetVisibility(ESlateVisibility::Collapsed);
-			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
-			break;
-
-		case EItemType::Quest:
-			ItemType->SetText(FText::FromString("Quest"));
-			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
-			break;
-
-		case EItemType::Mundane:
-			ItemType->SetText(FText::FromString("Mundane"));
-			DamageValue->SetVisibility(ESlateVisibility::Collapsed);
-			ArmorRating->SetVisibility(ESlateVisibility::Collapsed);
-			UsageText->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 
 		default:;
@@ -77,7 +58,6 @@ void UInventoryTooltip::NativeConstruct()
 
 		ItemName->SetText(ItemBeingHovered->TextData.Name);
 		DamageValue->SetText(FText::AsNumber(ItemBeingHovered->ItemStatistics.DamageValue));
-		ArmorRating->SetText(FText::AsNumber(ItemBeingHovered->ItemStatistics.ArmorRating));
 		UsageText->SetText(ItemBeingHovered->TextData.UsageText);
 		ItemDescription->SetText(ItemBeingHovered->TextData.Description);
 
