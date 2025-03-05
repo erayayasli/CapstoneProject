@@ -41,6 +41,7 @@ class ACapstoneProjectCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
 	USkeletalMeshComponent* Mesh1P;
@@ -102,7 +103,6 @@ protected:
 
 	void Look(const FInputActionValue& Value);
 
-protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 public:
@@ -114,6 +114,14 @@ public:
 	
 
 public:
+	//Holding Item
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* HoldingItemMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Inventory", meta = (AllowPrivateAccess = "true"))
+	class UItemBase* HoldingItemReference;
+	/////////////
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "HUD")
 	ACharHUD* HUD;
 
@@ -145,7 +153,7 @@ public:
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
 	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
 	void UpdateInteractionWidget() const;
-	void DropItem(class UItemBase* ItemToDrop, const int32 QuantityToDrop);
+	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
 
 };
 

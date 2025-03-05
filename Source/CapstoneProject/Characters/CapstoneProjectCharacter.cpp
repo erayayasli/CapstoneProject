@@ -10,8 +10,8 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include "CapstoneProject/UserInterface/CharHUD.h"
-#include "CapstoneProject/Components/InventoryComponent.h"
 #include "CapstoneProject/Items/ItemBase.h"
+#include "CapstoneProject/Components/InventoryComponent.h"
 #include "CapstoneProject/World/Pickup.h"
 #include "CapstoneProject/Components/StatlineComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -23,7 +23,6 @@
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
-
 //////////////////////////////////////////////////////////////////////////
 // ACapstoneProjectCharacter
 
@@ -43,6 +42,12 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	HoldingItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HoldingItem"));
+	HoldingItemMesh->SetupAttachment(FirstPersonCameraComponent);
+	HoldingItemMesh->CastShadow = false;
+	HoldingItemMesh->bCastDynamicShadow = false;
+	HoldingItemMesh->SetRelativeLocation(FVector(60.f, 20.f, -30.f));
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));

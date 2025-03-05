@@ -46,8 +46,21 @@ void UInventorySlotContextMenu::OnUseButtonClicked()
     // Handle using the item
     if (ItemReference)
     {
-        // Call your item use function
-        // ItemReference->Use();
+        if (ItemReference->ItemType == EItemType::Weapon)
+        {
+            ACapstoneProjectCharacter* PlayerCharacter = Cast<ACapstoneProjectCharacter>(GetOwningPlayerPawn());
+            if (PlayerCharacter)
+            {
+                PlayerCharacter->HoldingItemReference = ItemReference;
+                PlayerCharacter->HoldingItemMesh->SetStaticMesh(ItemReference->AssetData.Mesh);
+            }
+            UE_LOG(LogTemp, Warning, TEXT("Weapon  'use' command used."))
+
+        }
+        else if (ItemReference->ItemType == EItemType::Consumable)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Consumable item 'use' command used."))
+        }
     }
 
     // Close the menu
