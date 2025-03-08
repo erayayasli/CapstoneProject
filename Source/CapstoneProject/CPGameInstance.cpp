@@ -1,9 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CPGameInstance.h"
+#include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
 
 void UCPGameInstance::LoadLevel_Implementation(const FName& LevelToLoad)
 {
 	LoadLevel(LevelToLoad);
+}
+
+void UCPGameInstance::Shutdown()
+{
+	Super::Shutdown();
+
+	// Static deðiþkeni sýfýrla
+	UInventorySlotContextMenu::ActiveContextMenu = nullptr;
 }

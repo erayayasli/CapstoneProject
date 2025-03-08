@@ -27,4 +27,6 @@ public:
 	void LoadLevel(const FName& LevelToLoad);
 	UFUNCTION(BlueprintCallable)
 	void LoadLevel_Implementation(const FName& LevelToLoad);
+
+	virtual void Shutdown() override;
 };
