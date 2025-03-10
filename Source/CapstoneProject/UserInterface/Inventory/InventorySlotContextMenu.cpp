@@ -44,21 +44,22 @@ void UInventorySlotContextMenu::OnUseButtonClicked()
 {
     UE_LOG(LogTemp, Warning, TEXT("Use çalýþýyor"))
     // Handle using the item
-    if (ItemReference)
+    ACapstoneProjectCharacter* PlayerCharacter = Cast<ACapstoneProjectCharacter>(GetOwningPlayerPawn());
+    if (ItemReference && PlayerCharacter)
     {
+        PlayerCharacter->HoldingItemReference = ItemReference;
+
         if (ItemReference->ItemType == EItemType::Weapon)
         {
-            ACapstoneProjectCharacter* PlayerCharacter = Cast<ACapstoneProjectCharacter>(GetOwningPlayerPawn());
-            if (PlayerCharacter)
-            {
-                PlayerCharacter->HoldingItemReference = ItemReference;
-                PlayerCharacter->HoldingItemMesh->SetStaticMesh(ItemReference->AssetData.Mesh);
-            }
+            PlayerCharacter->HoldingItemMesh->SetRelativeLocation(FVector(70.f, 40.f, -40.f)); //TODO: make it variable inside character.ccp
+            PlayerCharacter->HoldingItemMesh->SetRelativeRotation(FRotator(90, 60.f, 0.f));
+            PlayerCharacter->HoldingItemMesh->SetStaticMesh(ItemReference->AssetData.Mesh);
             UE_LOG(LogTemp, Warning, TEXT("Weapon  'use' command used."))
-
         }
         else if (ItemReference->ItemType == EItemType::Consumable)
         {
+            //TODO: BURAYA  DATA TABLE DAKI YIYECEKLERIN NE KADAR CAN ARTTIRACAÐI NE KADAR SURE ARTTIRACAÐI FALAN O BILGILERI ÇEKIP
+            //      INVENTORY COMPONENTTAN GUNCELLEME YAP
             UE_LOG(LogTemp, Warning, TEXT("Consumable item 'use' command used."))
         }
     }

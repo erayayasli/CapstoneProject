@@ -118,8 +118,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* HoldingItemMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Inventory", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	class UItemBase* HoldingItemReference;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* HoldingItemBoxComponent;
+
+private:
+	const FVector DefaultHoldingItemLocation = FVector(60.f, 20.f, -30.f);
+	const FRotator DefaultHoldingItemRotation = FRotator(0.f, 0.f, 0.f);
+
+public:
 	/////////////
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "HUD")
@@ -147,13 +156,17 @@ public:
 	void EndInteract();
 	void Interact();
 
+	void UpdateInteractionWidget() const;
+	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
+
 	virtual void Tick(float DeltaSeconds) override;
 
 public:
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
 	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
-	void UpdateInteractionWidget() const;
-	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
+	FORCEINLINE FVector GetHoldingItemDefaultLocation() { return DefaultHoldingItemLocation; }
+	FORCEINLINE FRotator GetHoldingItemDefaultRotation() { return DefaultHoldingItemRotation; }
+
 
 };
 

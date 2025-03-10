@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
@@ -47,7 +48,14 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	HoldingItemMesh->SetupAttachment(FirstPersonCameraComponent);
 	HoldingItemMesh->CastShadow = false;
 	HoldingItemMesh->bCastDynamicShadow = false;
-	HoldingItemMesh->SetRelativeLocation(FVector(60.f, 20.f, -30.f));
+	HoldingItemMesh->SetRelativeLocation(GetHoldingItemDefaultLocation());
+	HoldingItemMesh->SetRelativeRotation(GetHoldingItemDefaultRotation());
+	//HoldingItemMesh->
+
+	HoldingItemBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HoldingItemBoxComponent"));
+	HoldingItemBoxComponent->SetupAttachment(HoldingItemMesh);
+	HoldingItemBoxComponent->SetRelativeLocation(FVector(60.0f, 0.0f, 0.0f));
+	HoldingItemBoxComponent->SetRelativeScale3D(FVector(1.25f, 0.25f, 0.25f));
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));

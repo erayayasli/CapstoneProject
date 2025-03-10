@@ -10,6 +10,6 @@ void UCPGameInstance::Shutdown()
 {
 	Super::Shutdown();
 
-	// Static deðiþkeni sýfýrla
+	// Static variable to nullptr
 	UInventorySlotContextMenu::ActiveContextMenu = nullptr;
 }
