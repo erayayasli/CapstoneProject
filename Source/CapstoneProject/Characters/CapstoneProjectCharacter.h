@@ -114,15 +114,9 @@ public:
 	
 
 public:
-	//Holding Item
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	UStaticMeshComponent* HoldingItemMesh;
-
+	//We might use this
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	class UItemBase* HoldingItemReference;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* HoldingItemBoxComponent;
 
 private:
 	const FVector DefaultHoldingItemLocation = FVector(60.f, 20.f, -30.f);

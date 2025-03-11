@@ -44,18 +44,6 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
-	HoldingItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HoldingItem"));
-	HoldingItemMesh->SetupAttachment(FirstPersonCameraComponent);
-	HoldingItemMesh->CastShadow = false;
-	HoldingItemMesh->bCastDynamicShadow = false;
-	HoldingItemMesh->SetRelativeLocation(GetHoldingItemDefaultLocation());
-	HoldingItemMesh->SetRelativeRotation(GetHoldingItemDefaultRotation());
-	//HoldingItemMesh->
-
-	HoldingItemBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HoldingItemBoxComponent"));
-	HoldingItemBoxComponent->SetupAttachment(HoldingItemMesh);
-	HoldingItemBoxComponent->SetRelativeLocation(FVector(60.0f, 0.0f, 0.0f));
-	HoldingItemBoxComponent->SetRelativeScale3D(FVector(1.25f, 0.25f, 0.25f));
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));

@@ -51,9 +51,7 @@ void UInventorySlotContextMenu::OnUseButtonClicked()
 
         if (ItemReference->ItemType == EItemType::Weapon)
         {
-            PlayerCharacter->HoldingItemMesh->SetRelativeLocation(FVector(70.f, 40.f, -40.f)); //TODO: make it variable inside character.ccp
-            PlayerCharacter->HoldingItemMesh->SetRelativeRotation(FRotator(90, 60.f, 0.f));
-            PlayerCharacter->HoldingItemMesh->SetStaticMesh(ItemReference->AssetData.Mesh);
+            //TODO: Burada karakterin BP_Sword actorunun spawn edilmesini veya öncden spawn etmiþ olarka tasarlayacaksak visbile yapmak lazým.
             UE_LOG(LogTemp, Warning, TEXT("Weapon  'use' command used."))
         }
         else if (ItemReference->ItemType == EItemType::Consumable)
