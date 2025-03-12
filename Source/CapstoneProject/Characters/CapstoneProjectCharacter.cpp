@@ -17,6 +17,8 @@
 #include "CapstoneProject/Components/StatlineComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 
 #include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
 
@@ -58,6 +60,11 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	StatlineComponent->SetMovementCompReference(GetCharacterMovement());
 
 	GetCharacterMovement()->MaxWalkSpeed = StatlineComponent->WalkSpeed;
+
+	//Audio
+	FootstepAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("FootstepAudioComponent"));
+	FootstepAudioComponent->bAutoActivate = false; // Otomatik çalmasýný engelle
+	FootstepAudioComponent->SetupAttachment(RootComponent);
 }
 
 void ACapstoneProjectCharacter::BeginPlay()
@@ -67,6 +74,11 @@ void ACapstoneProjectCharacter::BeginPlay()
 
 	HUD = Cast<ACharHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
+	if (!(SneakGrassCue && WalkGrassCue && SprintGrassCue && JumpGrassCue))
+	{
+		UE_LOG(LogTemp, Error, TEXT("You need to set Cues from First person blueprint !!"));
+		return;
+	}
 }
 bool ACapstoneProjectCharacter::CanJump() const
 {
@@ -102,6 +114,11 @@ void ACapstoneProjectCharacter::PlayerJump()
 	{
 		HasJumped();
 	}
+}
+void ACapstoneProjectCharacter::PlayerEndJump()
+{
+	ACharacter::StopJumping();
+
 }
 void ACapstoneProjectCharacter::SprintOn()
 {
@@ -162,7 +179,7 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::PlayerJump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::PlayerEndJump);
 
 		// Interaction
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::BeginInteract);
@@ -233,6 +250,12 @@ void ACapstoneProjectCharacter::Move(const FInputActionValue& Value)
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
+
+		FVector Velocity = GetCharacterMovement()->Velocity;
+
+		//Make noise if we are not sneaking
+		MakeNoise(Velocity.Length() > StatlineComponent->WalkSpeed ? 1 : 0, this, GetActorLocation());
+
 	}
 }
 
