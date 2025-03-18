@@ -3,25 +3,29 @@
 #include "CapstoneProjectCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "Components/BoxComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+//
 #include "CapstoneProject/UserInterface/CharHUD.h"
 #include "CapstoneProject/Items/ItemBase.h"
-#include "CapstoneProject/Components/InventoryComponent.h"
+#include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
 #include "CapstoneProject/World/Pickup.h"
+//hand made Components
+#include "CapstoneProject/Components/InventoryComponent.h"
 #include "CapstoneProject/Components/StatlineComponent.h"
+#include "CapstoneProject/Components/DamageComponent.h"
+//
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/BoxComponent.h"
+//
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
-#include "Components/AudioComponent.h"
-
-#include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
-
+//
 #include "DrawDebugHelpers.h"
 
 
@@ -58,6 +62,9 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 
 	StatlineComponent = CreateDefaultSubobject<UStatlineComponent>(TEXT("StatlineComponent"));
 	StatlineComponent->SetMovementCompReference(GetCharacterMovement());
+
+	DamageComponent = CreateDefaultSubobject<UDamageComponent>(TEXT("DamageComponent"));
+	StatlineComponent->SetDamageCompReference(DamageComponent);
 
 	GetCharacterMovement()->MaxWalkSpeed = StatlineComponent->WalkSpeed;
 

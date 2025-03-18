@@ -16,6 +16,7 @@ class ACharHUD;
 class UStatlineComponent;
 class USoundCue;
 class UAudioComponent;
+class UDamageComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -53,9 +54,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
-	/** Stat Component: Health, hunger, thirst, stamina*/
+	/** Stat Component: , hunger, thirst, stamina*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats, meta = (AllowPrivateAccess = "true"))
 	UStatlineComponent* StatlineComponent;
+
+	/** Damage component for both enemy and player. works on health, heal take damage etc.*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats, meta = (AllowPrivateAccess = "true"))
+	UDamageComponent* DamageComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Sound", meta = (AllowPrivateAccess = "true"))
 	UAudioComponent* FootstepAudioComponent;

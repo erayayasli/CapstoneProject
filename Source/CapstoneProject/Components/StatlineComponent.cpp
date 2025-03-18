@@ -3,6 +3,7 @@
 
 #include "StatlineComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DamageComponent.h"
 
 void UStatlineComponent::TickStats(const float& DeltaTime)
 {
@@ -13,7 +14,6 @@ void UStatlineComponent::TickStats(const float& DeltaTime)
 	{
 		return;
 	}
-	Health.TickStat(DeltaTime);
 }
 
 void UStatlineComponent::TickStamina(const float& DeltaTime)
@@ -45,7 +45,8 @@ void UStatlineComponent::TickHunger(const float& DeltaTime)
 {
 	if (Hunger.GetCurrent() <= 0.0)
 	{
-		Health.Adjust(0 - abs(StarvingHealthDamagePerSecond * DeltaTime));
+		//Little bit confusing but it sets health between current and maxhealth 
+		OwningDamageComponent->Health = FMath::Clamp(OwningDamageComponent->Health + 0 - abs(StarvingHealthDamagePerSecond * DeltaTime), 0, OwningDamageComponent->MaxHealth);
 		return;
 	}
 
@@ -56,7 +57,8 @@ void UStatlineComponent::TickThirst(const float& DeltaTime)
 {
 	if (Thirst.GetCurrent() <= 0.0)
 	{
-		Health.Adjust(0 - abs(DehydrationHealthDamagePerSecond * DeltaTime));
+		//Same as tick hunger
+		OwningDamageComponent->Health = FMath::Clamp(OwningDamageComponent->Health + 0 - abs(DehydrationHealthDamagePerSecond * DeltaTime), 0, OwningDamageComponent->MaxHealth);
 		return;
 	}
 
@@ -102,13 +104,15 @@ void UStatlineComponent::SetMovementCompReference(UCharacterMovementComponent* C
 	OwningCharacterMovementComp = Comp;
 }
 
+void UStatlineComponent::SetDamageCompReference(UDamageComponent* Comp)
+{
+	OwningDamageComponent = Comp;
+}
+
 float UStatlineComponent::GetStatPercentile(const ECoreStat Stat) const
 {
 	switch (Stat)
 	{
-	case ECoreStat::CS_Health:
-		return Health.Percentile();
-
 	case ECoreStat::CS_Stamina:
 		return Stamina.Percentile();
 

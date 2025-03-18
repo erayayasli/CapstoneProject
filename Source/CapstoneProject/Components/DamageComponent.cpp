@@ -79,10 +79,14 @@ bool UDamageComponent::TakeDamage(const FDamageInfo& DamageInfo, AActor* DamageC
             bIsDead = true;
             OnDeath.Broadcast();
         }
-
-        // Trigger damage reaction event
-        OnDamageResponse.Broadcast(DamageInfo.DamageResponse);
-
+        else
+        {
+            if (DamageInfo.ShouldForceInterrupt || bIsInterruptible)
+            {
+                // Trigger damage reaction event
+                OnDamageResponse.Broadcast(DamageInfo.DamageResponse);
+            }
+        }
         return true; // Damage Taken
     }
 

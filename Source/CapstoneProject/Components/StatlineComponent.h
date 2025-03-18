@@ -27,8 +27,8 @@ class CAPSTONEPROJECT_API UStatlineComponent : public UActorComponent
 	// energy?? sleep???
 
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
-	FCoreStat Health;							 
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
+	FCoreStat Health;	*/						 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Stamina;							 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
@@ -69,6 +69,7 @@ public:
 
 	bool IsValidSpriting();
 	class UCharacterMovementComponent* OwningCharacterMovementComp;
+	class UDamageComponent* OwningDamageComponent;
 
 
 protected:
@@ -84,6 +85,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetMovementCompReference(UCharacterMovementComponent* Comp);
+
+	UFUNCTION(BlueprintCallable)
+	void SetDamageCompReference(UDamageComponent* Comp);
 
 	UFUNCTION(BlueprintCallable)
 	float GetStatPercentile(const ECoreStat Stat) const;
