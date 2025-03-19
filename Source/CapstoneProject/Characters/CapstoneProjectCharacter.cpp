@@ -3,23 +3,29 @@
 #include "CapstoneProjectCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "Components/BoxComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+//
 #include "CapstoneProject/UserInterface/CharHUD.h"
 #include "CapstoneProject/Items/ItemBase.h"
-#include "CapstoneProject/Components/InventoryComponent.h"
-#include "CapstoneProject/World/Pickup.h"
-#include "CapstoneProject/Components/StatlineComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/GameplayStatics.h"
-
 #include "CapstoneProject/UserInterface/Inventory/InventorySlotContextMenu.h"
-
+#include "CapstoneProject/World/Pickup.h"
+//hand made Components
+#include "CapstoneProject/Components/InventoryComponent.h"
+#include "CapstoneProject/Components/StatlineComponent.h"
+#include "CapstoneProject/Components/DamageComponent.h"
+//
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/BoxComponent.h"
+//
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+//
 #include "DrawDebugHelpers.h"
 
 
@@ -57,7 +63,15 @@ ACapstoneProjectCharacter::ACapstoneProjectCharacter():
 	StatlineComponent = CreateDefaultSubobject<UStatlineComponent>(TEXT("StatlineComponent"));
 	StatlineComponent->SetMovementCompReference(GetCharacterMovement());
 
+	DamageComponent = CreateDefaultSubobject<UDamageComponent>(TEXT("DamageComponent"));
+	StatlineComponent->SetDamageCompReference(DamageComponent);
+
 	GetCharacterMovement()->MaxWalkSpeed = StatlineComponent->WalkSpeed;
+
+	//Audio
+	FootstepAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("FootstepAudioComponent"));
+	FootstepAudioComponent->bAutoActivate = false; // Otomatik çalmasýný engelle
+	FootstepAudioComponent->SetupAttachment(RootComponent);
 }
 
 void ACapstoneProjectCharacter::BeginPlay()
@@ -67,6 +81,11 @@ void ACapstoneProjectCharacter::BeginPlay()
 
 	HUD = Cast<ACharHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
+	if (!(SneakGrassCue && WalkGrassCue && SprintGrassCue && JumpGrassCue))
+	{
+		UE_LOG(LogTemp, Error, TEXT("You need to set Cues from First person blueprint !!"));
+		return;
+	}
 }
 bool ACapstoneProjectCharacter::CanJump() const
 {
@@ -102,6 +121,11 @@ void ACapstoneProjectCharacter::PlayerJump()
 	{
 		HasJumped();
 	}
+}
+void ACapstoneProjectCharacter::PlayerEndJump()
+{
+	ACharacter::StopJumping();
+
 }
 void ACapstoneProjectCharacter::SprintOn()
 {
@@ -162,7 +186,7 @@ void ACapstoneProjectCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::PlayerJump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACapstoneProjectCharacter::PlayerEndJump);
 
 		// Interaction
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACapstoneProjectCharacter::BeginInteract);
@@ -233,6 +257,12 @@ void ACapstoneProjectCharacter::Move(const FInputActionValue& Value)
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
+
+		FVector Velocity = GetCharacterMovement()->Velocity;
+
+		//Make noise if we are not sneaking
+		MakeNoise(Velocity.Length() > StatlineComponent->WalkSpeed ? 1 : 0, this, GetActorLocation());
+
 	}
 }
 
@@ -426,4 +456,14 @@ void ACapstoneProjectCharacter::DropItem(UItemBase* ItemToDrop, const int32 Quan
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item to drop was somehow null!"));
 	}
+}
+
+void ACapstoneProjectCharacter::UpdateStatsFromItem(FEffectOnStats AddingValues)
+{
+	StatlineComponent->Hunger.Adjust(AddingValues.HungerEffect);
+	StatlineComponent->Thirst.Adjust(AddingValues.ThirstEffect);
+	StatlineComponent->Stamina.Adjust(AddingValues.StaminaEffect);
+
+	DamageComponent->Heal(AddingValues.HealthEffect);
+
 }

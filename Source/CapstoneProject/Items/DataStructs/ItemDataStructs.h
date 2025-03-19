@@ -23,6 +23,24 @@ enum class EItemType : uint8
 };
 
 USTRUCT(BlueprintType)
+struct FEffectOnStats
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	float HealthEffect;
+
+	UPROPERTY(EditAnywhere)
+	float HungerEffect;
+
+	UPROPERTY(EditAnywhere)
+	float ThirstEffect;
+
+	UPROPERTY(EditAnywhere)
+	float StaminaEffect;
+};
+
+USTRUCT(BlueprintType)
 struct FItemStatistics
 {
 	GENERATED_BODY()
@@ -35,6 +53,9 @@ struct FItemStatistics
 
 	UPROPERTY(EditAnywhere)
 	float SellValue;
+	
+	UPROPERTY(EditAnywhere)
+	FEffectOnStats StatValues;
 };
 
 USTRUCT(BlueprintType)
@@ -80,6 +101,9 @@ struct FItemAssetData
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UStaticMesh> Mesh;
+
+	UPROPERTY(EditAnywhere)
+	USoundCue* CueToUse;
 };
 
 USTRUCT(BlueprintType)

@@ -68,3 +68,50 @@ public:
 		return Current;
 	}
 };
+
+UENUM(BlueprintType)
+enum class EDamageResponse : uint8
+{
+	None        UMETA(DisplayName = "None"),
+	HitReaction     UMETA(DisplayName = "HitReaction"),
+	Stagger     UMETA(DisplayName = "Stagger"),
+	Stun       UMETA(DisplayName = "Stun"),
+	KnockBack       UMETA(DisplayName = "KnockBack")
+};
+
+UENUM(BlueprintType)
+enum class EDamageType : uint8
+{
+	None        UMETA(DisplayName = "None"),
+	Melee     UMETA(DisplayName = "Melee"),
+	Projectile     UMETA(DisplayName = "Projectile"),
+	Explosion       UMETA(DisplayName = "Explosion"),
+	Environment       UMETA(DisplayName = "Environment")
+};
+
+USTRUCT(BlueprintType)
+struct FDamageInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	float Amount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	EDamageType DamageType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	EDamageResponse DamageResponse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	bool ShouldDamageInvincible;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	bool CanBeBlocked;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	bool CanBeParried;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	bool ShouldForceInterrupt;
+};

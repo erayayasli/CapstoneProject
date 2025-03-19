@@ -14,6 +14,9 @@ class UInputMappingContext;
 struct FInputActionValue;
 class ACharHUD;
 class UStatlineComponent;
+class USoundCue;
+class UAudioComponent;
+class UDamageComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -41,6 +44,7 @@ class ACapstoneProjectCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
@@ -50,9 +54,16 @@ class ACapstoneProjectCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
-	/** Stat Component: Health, hunger, thirst, stamina*/
+	/** Stat Component: , hunger, thirst, stamina*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats, meta = (AllowPrivateAccess = "true"))
 	UStatlineComponent* StatlineComponent;
+
+	/** Damage component for both enemy and player. works on health, heal take damage etc.*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats, meta = (AllowPrivateAccess = "true"))
+	UDamageComponent* DamageComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Sound", meta = (AllowPrivateAccess = "true"))
+	UAudioComponent* FootstepAudioComponent;
 
 	/**Input Actions - Begin*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
@@ -73,6 +84,16 @@ class ACapstoneProjectCharacter : public ACharacter
 	UInputAction* LeftClickAction;
 	/**Input Actions - END*/
 
+	/** Sound Cues for walking sneaking, running and jumping(landing)*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound Cues", meta = (AllowPrivateAccess = "true"))
+	USoundCue* SneakGrassCue;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound Cues", meta = (AllowPrivateAccess = "true"))
+	USoundCue* WalkGrassCue;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound Cues", meta = (AllowPrivateAccess = "true"))
+	USoundCue* SprintGrassCue;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound Cues", meta = (AllowPrivateAccess = "true"))
+	USoundCue* JumpGrassCue;
+
 public:
 	ACapstoneProjectCharacter();
 
@@ -88,6 +109,7 @@ protected:
 
 	//
 	void PlayerJump();
+	void PlayerEndJump();
 	void SprintOn();
 	void SprintOff();
 	void SneakOn();
@@ -140,6 +162,7 @@ public:
 	FTimerHandle TimerHandle_Interaction;
 	FInteractionData InteractionData;
 
+
 	//FUNCTIONS
 	void ToggleMenu();
 
@@ -153,7 +176,11 @@ public:
 	void UpdateInteractionWidget() const;
 	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
 
+	void UpdateStatsFromItem(FEffectOnStats AddingValues);
+
 	virtual void Tick(float DeltaSeconds) override;
+
+
 
 public:
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandle_Interaction); };
