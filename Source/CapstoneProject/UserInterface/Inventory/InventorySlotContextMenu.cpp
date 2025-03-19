@@ -2,6 +2,9 @@
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
 #include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
+#include "CapstoneProject/Components/InventoryComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 UInventorySlotContextMenu* UInventorySlotContextMenu::ActiveContextMenu = nullptr;
 
@@ -56,9 +59,13 @@ void UInventorySlotContextMenu::OnUseButtonClicked()
         }
         else if (ItemReference->ItemType == EItemType::Consumable)
         {
-            //TODO: BURAYA  DATA TABLE DAKI YIYECEKLERIN NE KADAR CAN ARTTIRACAÐI NE KADAR SURE ARTTIRACAÐI FALAN O BILGILERI ÇEKIP
-            //      INVENTORY COMPONENTTAN GUNCELLEME YAP
-            UE_LOG(LogTemp, Warning, TEXT("Consumable item 'use' command used."))
+            //Updates character stats
+            PlayerCharacter->UpdateStatsFromItem(ItemReference->ItemStatistics.StatValues);
+            //Removing used item from inventory
+            PlayerCharacter->PlayerInventory->RemoveAmountOfItem(ItemReference, 1);
+            //Playing Sound eat happens
+            if(ItemReference->AssetData.CueToUse)
+                UGameplayStatics::PlaySound2D(this, ItemReference->AssetData.CueToUse);
         }
     }
 

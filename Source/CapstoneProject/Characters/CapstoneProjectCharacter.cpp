@@ -457,3 +457,13 @@ void ACapstoneProjectCharacter::DropItem(UItemBase* ItemToDrop, const int32 Quan
 		UE_LOG(LogTemp, Warning, TEXT("Item to drop was somehow null!"));
 	}
 }
+
+void ACapstoneProjectCharacter::UpdateStatsFromItem(FEffectOnStats AddingValues)
+{
+	StatlineComponent->Hunger.Adjust(AddingValues.HungerEffect);
+	StatlineComponent->Thirst.Adjust(AddingValues.ThirstEffect);
+	StatlineComponent->Stamina.Adjust(AddingValues.StaminaEffect);
+
+	DamageComponent->Heal(AddingValues.HealthEffect);
+
+}
