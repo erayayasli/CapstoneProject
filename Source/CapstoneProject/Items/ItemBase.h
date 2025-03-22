@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "DataStructs/ItemDataStructs.h"
 #include "CapstoneProject/Characters/CapstoneProjectCharacter.h"
+#include "CapstoneProject/DataType/StructsClassesEnums.h"
 #include "ItemBase.generated.h"
 
 /**

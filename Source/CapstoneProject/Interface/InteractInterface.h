@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "CapstoneProject/Items/DataStructs/ItemDataStructs.h"
+#include "CapstoneProject/DataType/StructsClassesEnums.h"
 #include "InteractInterface.generated.h"
 
 class ACapstoneProjectCharacter;
@@ -14,7 +14,9 @@ enum class EInteractableType : uint8
 	NonPlayerCharacter UMETA(DisplayName = "NonPlayerCharacter"),
 	Device UMETA(DisplayName = "Device"),
 	Toggle UMETA(DisplayName = "Toggle"),//button ,switch, anything that can activate
-	Container UMETA(DisplayName = "Container")
+	Container UMETA(DisplayName = "Container"),
+	CraftingTable UMETA(DisplayName = "CraftingTable")
+
 };
 
 USTRUCT(BlueprintType)
@@ -51,7 +53,7 @@ struct FInteractableData {
 };
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UInteractInterface : public UInterface
 {
 	GENERATED_BODY()

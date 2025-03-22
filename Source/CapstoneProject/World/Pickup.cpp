@@ -1,5 +1,5 @@
 #include "Pickup.h"
-#include "CapstoneProject/Items/DataStructs/ItemDataStructs.h"
+#include "CapstoneProject/DataType/StructsClassesEnums.h"
 #include "CapstoneProject/Items/ItemBase.h"
 #include "CapstoneProject/Components/InventoryComponent.h"
 

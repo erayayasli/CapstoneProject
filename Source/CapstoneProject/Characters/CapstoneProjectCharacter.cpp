@@ -291,26 +291,14 @@ void ACapstoneProjectCharacter::PerformInteractionCheck()
 
 	FVector TraceStart{ GetFirstPersonCameraComponent()->GetComponentLocation() };
 
-	//if (!bAiming)
-	//{
-	//	InteractionCheckDistance = 200.0f;
-	//	TraceStart = GetPawnViewLocation();
-	//}
-	//else
-	//{
-	//	InteractionCheckDistance = 250.0f;
-	//	TraceStart = FollowCamera->GetComponentLocation();
-	//}
-
 	FVector TraceEnd{ TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance) };
 
+	//TODO: Delete in the end
 	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Black, false, 1.0f);
 
 	float LookDirection = FVector::DotProduct(GetActorForwardVector(), GetViewRotation().Vector());
 	if (LookDirection > 0)
 	{
-		// DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
-
 		FCollisionQueryParams QueryParams;
 		QueryParams.AddIgnoredActor(this);
 		FHitResult TraceHit;

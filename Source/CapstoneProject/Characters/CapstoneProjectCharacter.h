@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "CapstoneProject/Interface/InteractInterface.h"
+#include "CapstoneProject/DataType/StructsClassesEnums.h"
 #include "CapstoneProjectCharacter.generated.h"
 
 class UInputComponent;

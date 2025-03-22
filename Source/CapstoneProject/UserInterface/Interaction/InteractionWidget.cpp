@@ -51,6 +51,10 @@ void UInteractionWidget::UpdateWidget(const FInteractableData* InteractableData)
 	case EInteractableType::Container:
 		break;
 
+	case EInteractableType::CraftingTable:
+		KeyPressText->SetText(FText::FromString("Open Crafting Table"));
+		InteractionProgressBar->SetVisibility(ESlateVisibility::Collapsed);
+		break;
 	default:;
 	}
 
